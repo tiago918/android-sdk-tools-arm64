@@ -1,6 +1,6 @@
-# Android SDK Tools for Linux ARM64 (64KB Page Size)
+# Android SDK Tools and Flutter gen_snapshot for Linux ARM64 (64KB Page Size)
 
-Este repositório fornece instruções e suporte para compilação cruzada (cross-compilation) e uso das ferramentas essenciais do Android SDK (`aapt2` e `zipalign`) nativamente em servidores Linux ARM64 (AArch64), com suporte obrigatório para alinhamento de páginas de memória de **64 KB**.
+Este repositório fornece instruções e suporte para compilação cruzada (cross-compilation) e uso das ferramentas essenciais do Android SDK (`aapt2` e `zipalign`) e do gerador de snapshots do Flutter (`gen_snapshot` nativo com Pointer Compression) nativamente em servidores Linux ARM64 (AArch64), com suporte obrigatório para alinhamento de páginas de memória de **64 KB**.
 
 > [!TIP]
 > **Procurando os binários pré-compilados?**
