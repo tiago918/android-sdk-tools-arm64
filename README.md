@@ -6,14 +6,20 @@ Este repositório fornece instruções e suporte para compilação cruzada (cros
 > **Procurando os binários pré-compilados?**
 > Você pode baixar os executáveis prontos para uso diretamente na página de [Releases do GitHub](https://github.com/tiago918/android-sdk-tools-arm64/releases/tag/v35.0.0-arm64).
 
+## Versão da VM verificada em 1 de outubro de 2026
+
+Os três downloads individuais da release já eram idênticos byte por byte aos executáveis da VM. O pacote `android-sdk-tools-35.0.0-linux-arm64.tar.gz` foi atualizado para incluir também `gen_snapshot`, licenças, manifesto e hashes. Depois de extrair, execute `sha256sum -c SHA256SUMS`.
+
+Veja [a comparação com a VM](VERIFICACAO_VM_2026-10-01.md) e [o manifesto](manifest.json).
+
 ---
 
 ## 1. Contexto e Requisitos
 
 ### O Problema do Page Size (Tamanho de Página)
-Sistemas baseados em arquitetura ARM64 voltados para servidores, como as instâncias **Ampere A1 (Oracle Cloud)**, utilizam kernels Linux configurados com páginas de memória de **64 KB** por questões de desempenho e eficiência. 
+O tamanho de página depende do kernel do host ARM64. A VM Oracle verificada em 1 de outubro de 2026 usa páginas de **4 KB** (`getconf PAGESIZE = 4096`). Os três binários desta release têm segmentos ELF alinhados em **64 KB** (`0x10000`). 
 
-Os binários oficiais disponibilizados pelo Google no Android SDK ou repositórios Maven são compilados assumindo páginas de **4 KB** (ou são apenas executáveis x86_64). Ao tentar executá-los em um kernel de 64 KB, ocorre uma falha imediata de segmentação (**Segmentation Fault** ou **Bus Error**) no carregamento dinâmico.
+Os binários oficiais disponibilizados pelo Google no Android SDK ou repositórios Maven são compilados assumindo páginas de **4 KB** (ou são apenas executáveis x86_64). Binários x86_64 precisam de emulação em um host ARM64. Binários com alinhamento insuficiente também podem falhar em kernels com páginas maiores.
 
 Este projeto documenta como compilar as ferramentas em conformidade com as especificações exigidas:
 - Arquitetura nativa **AArch64 (ARM64)**.
@@ -107,13 +113,16 @@ Se você estiver utilizando este ambiente para compilar aplicativos **Flutter**,
 
 Isso ocorre porque o Flutter SDK para Linux ARM64 executa por padrão a versão x86_64 do `gen_snapshot` via emulação. Para resolver isso e compilar de forma 100% nativa e rápida:
 
-1. **Substitua o wrapper do QEMU pelo binário nativo ARM64** no seu Flutter SDK:
+Este `gen_snapshot` corresponde ao **Flutter 3.44.2 / Dart 3.12.2**, engine `77e2e94772b6eb43759e34ed1ad7da4674e19cab`, e ao alvo **Android ARM64 release**. Confira a engine do SDK antes de instalar. O executável de Linux desktop não é um substituto adequado para esse alvo.
+
+1. **Substitua o wrapper do QEMU pelo binário nativo ARM64 da release** no seu Flutter SDK:
    ```bash
    # Backup do script original
    mv ~/flutter/bin/cache/artifacts/engine/android-arm64-release/linux-arm64/gen_snapshot ~/flutter/bin/cache/artifacts/engine/android-arm64-release/linux-arm64/gen_snapshot.bak
 
-   # Link simbólico para o executável nativo ARM64
-   ln -sf ~/flutter/bin/cache/artifacts/engine/linux-arm64/gen_snapshot ~/flutter/bin/cache/artifacts/engine/android-arm64-release/linux-arm64/gen_snapshot
+   # Instale o gen_snapshot da release, compilado para Android ARM64 release
+   cp /caminho/dos/novos/binarios/gen_snapshot ~/flutter/bin/cache/artifacts/engine/android-arm64-release/linux-arm64/gen_snapshot
+   chmod +x ~/flutter/bin/cache/artifacts/engine/android-arm64-release/linux-arm64/gen_snapshot
    ```
 
 2. **Gere o build especificando a plataforma alvo ARM64**:

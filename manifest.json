@@ -1,0 +1,30 @@
+{
+  "verified_at": "2026-10-01",
+  "source": "Executaveis instalados na VM Oracle ARM64",
+  "host_page_size_bytes": 4096,
+  "android_sdk_build_tools": "35.0.0",
+  "flutter": "3.44.2",
+  "dart": "3.12.2",
+  "flutter_engine": "77e2e94772b6eb43759e34ed1ad7da4674e19cab",
+  "gen_snapshot_target": "android-arm64-release",
+  "binaries": {
+    "aapt2": {
+      "sha256": "0bcba62597aceabd40b4c23a84eb28f2bec3223f00a29f54ecb0bf9e561dbc67",
+      "size": 5320952,
+      "architecture": "aarch64",
+      "elf_load_alignment": "0x10000"
+    },
+    "zipalign": {
+      "sha256": "aaecc354183fd579e8583f0d83e5f02f7fa2995a28a906bd95ea726a8423948d",
+      "size": 198768,
+      "architecture": "aarch64",
+      "elf_load_alignment": "0x10000"
+    },
+    "gen_snapshot": {
+      "sha256": "9dacc583fb7426facd0c2e90f4c2ef8a2256013c9d19805e880bbb7371958613",
+      "size": 5721592,
+      "architecture": "aarch64",
+      "elf_load_alignment": "0x10000"
+    }
+  }
+}
