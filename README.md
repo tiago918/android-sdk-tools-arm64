@@ -17,7 +17,7 @@ Veja [a comparação com a VM](VERIFICACAO_VM_2026-10-01.md) e [o manifesto](man
 ## 1. Contexto e Requisitos
 
 ### O Problema do Page Size (Tamanho de Página)
-O tamanho de página depende do kernel do host ARM64. A VM Oracle verificada em 1 de outubro de 2026 usa páginas de **4 KB** (`getconf PAGESIZE = 4096`). Os três binários desta release têm segmentos ELF alinhados em **64 KB** (`0x10000`). 
+O tamanho de página depende do kernel do host ARM64. A VM Oracle verificada em 1 de outubro de 2026 usa páginas de **4 KB** (`getconf PAGESIZE = 4096`). Os três binários desta release têm segmentos ELF alinhados em **64 KB** (`0x10000`).
 
 Os binários oficiais disponibilizados pelo Google no Android SDK ou repositórios Maven são compilados assumindo páginas de **4 KB** (ou são apenas executáveis x86_64). Binários x86_64 precisam de emulação em um host ARM64. Binários com alinhamento insuficiente também podem falhar em kernels com páginas maiores.
 
